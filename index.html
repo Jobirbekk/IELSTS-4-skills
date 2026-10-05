@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS 4 Skills Trainer</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: #f5f7ff;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 22px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #252c43;
+      background: #0d1326;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: #6c63ff;
+    }
+
+    .badge {
+      background: #171d35;
+      border: 1px solid #303858;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #aeb7d4;
+    }
+
+    .hero {
+      padding: 75px 7% 45px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      line-height: 1.05;
+      max-width: 850px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #746cff;
+    }
+
+    .hero p {
+      color: #aeb7d4;
+      font-size: 18px;
+      max-width: 700px;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .start-btn {
+      border: none;
+      background: #6c63ff;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px 7% 70px;
+    }
+
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 25px;
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .skill {
+      background: #11182c;
+      border: 1px solid #28304a;
+      border-radius: 18px;
+      padding: 25px;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .skill:hover {
+      transform: translateY(-5px);
+      border-color: #6c63ff;
+    }
+
+    .icon {
+      font-size: 38px;
+      margin-bottom: 18px;
+    }
+
+    .skill h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .skill p {
+      color: #929bb7;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .workspace {
+      margin-top: 45px;
+      background: #11182c;
+      border: 1px solid #28304a;
+      border-radius: 20px;
+      padding: 30px;
+      display: none;
+    }
+
+    .workspace.active {
+      display: block;
+    }
+
+    .workspace h2 {
+      margin-bottom: 12px;
+      font-size: 30px;
+    }
+
+    .workspace > p {
+      color: #9da7c2;
+      margin-bottom: 25px;
+    }
+
+    .question {
+      background: #0b1020;
+      border: 1px solid #29324c;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 15px;
+    }
+
+    .question h3 {
+      margin-bottom: 15px;
+    }
+
+    .answers label {
+      display: block;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 8px 0;
+      background: #151d34;
+      cursor: pointer;
+    }
+
+    .answers label:hover {
+      background: #1b2542;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 280px;
+      resize: vertical;
+      background: #0b1020;
+      color: white;
+      border: 1px solid #303a59;
+      border-radius: 14px;
+      padding: 18px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: #6c63ff;
+    }
+
+    .word-count {
+      margin-top: 10px;
+      color: #9da7c2;
+    }
+
+    .timer {
+      font-size: 35px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 18px;
+      background: #151d34;
+      border-radius: 12px;
+      display: none;
+    }
+
+    .progress-box {
+      margin-top: 50px;
+      background: #11182c;
+      border: 1px solid #28304a;
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: #252d45;
+      border-radius: 10px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #6c63ff;
+      transition: 0.4s;
+    }
+
+    footer {
+      border-top: 1px solid #252c43;
+      padding: 30px 7%;
+      text-align: center;
+      color: #727c99;
+    }
+
+    @media (max-width: 900px) {
+      .skills {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .skills {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 45px;
+      }
+
+      .workspace {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">IELTS <span>4 Skills</span></div>
+  <div class="badge">Trainer</div>
+</header>
+
+<section class="hero">
+  <h1>Improve your <span>IELTS</span> skills.</h1>
+  <p>
+    Practice Listening, Reading, Writing and Speaking in one simple training platform.
+    Track your progress and build your confidence step by step.
+  </p>
+  <button class="start-btn" onclick="scrollToSkills()">Start Practicing →</button>
+</section>
+
+<main class="container">
+
+  <h2 class="section-title">Choose a skill</h2>
+
+  <div class="skills">
+
+    <div class="skill" onclick="openSkill('listening')">
+      <div class="icon">🎧</div>
+      <h3>Listening</h3>
+      <p>Train your listening comprehension and understand conversations faster.</p>
+    </div>
+
+    <div class="skill" onclick="openSkill('reading')">
+      <div class="icon">📖</div>
+      <h3>Reading</h3>
+      <p>Practice reading questions and improve your speed and accuracy.</p>
+    </div>
+
+    <div class="skill" onclick="openSkill('writing')">
+      <div class="icon">✍️</div>
+      <h3>Writing</h3>
+      <p>Write your IELTS answers and track your word count.</p>
+    </div>
+
+    <div class="skill" onclick="openSkill('speaking')">
+      <div class="icon">🎤</div>
+      <h3>Speaking</h3>
+      <p>Practice speaking topics and record your answers.</p>
+    </div>
+
+  </div>
+
+  <div id="workspace" class="workspace"></div>
+
+  <div class="progress-box">
+    <h2>Your Progress</h2>
+    <p style="color:#9da7c2;margin-top:8px;">
+      Complete exercises to improve your progress.
+    </p>
+
+    <div class="progress-bar">
+      <div id="progressFill" class="progress-fill"></div>
+    </div>
+
+    <p id="progressText" style="margin-top:12px;color:#9da7c2;">
+      0% completed
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  IELTS 4 Skills Trainer © 2026
+</footer>
+
+<script>
+
+let progress = Number(localStorage.getItem("ieltsProgress")) || 0;
+
+function updateProgress() {
+  document.getElementById("progressFill").style.width = progress + "%";
+  document.getElementById("progressText").innerText =
+    progress + "% completed";
+}
+
+function addProgress(amount) {
+  progress = Math.min(100, progress + amount);
+  localStorage.setItem("ieltsProgress", progress);
+  updateProgress();
+}
+
+function scrollToSkills() {
+  document.querySelector(".skills").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function openSkill(skill) {
+
+  const workspace = document.getElementById("workspace");
+
+  workspace.classList.add("active");
+
+  if (skill === "listening") {
+
+    workspace.innerHTML = `
+      <h2>🎧 Listening Practice</h2>
+      <p>Read the short conversation and answer the question.</p>
+
+      <div class="question">
+        <p style="line-height:1.7;">
+          Student: What time does the library open tomorrow?<br>
+          Staff: It opens at 9:00 in the morning and closes at 6:00.
+        </p>
+      </div>
+
+      <div class="question">
+        <h3>What time does the library open?</h3>
+
+        <div class="answers">
+          <label><input type="radio" name="listen"> 8:00</label>
+          <label><input type="radio" name="listen"> 9:00</label>
+          <label><input type="radio" name="listen"> 10:00</label>
+        </div>
+      </div>
+
+      <button class="start-btn" onclick="checkListening()">Check Answer</button>
+
+      <div id="listenResult" class="result"></div>
+    `;
+
+  }
+
+  if (skill === "reading") {
+
+    workspace.innerHTML = `
+      <h2>📖 Reading Practice</h2>
+      <p>Read the passage and choose the correct answer.</p>
+
+      <div class="question">
+        <p style="line-height:1.8;">
+          Many students now use digital tools to support their learning.
+          Online platforms allow students to practice at any time and
+          receive immediate feedback. However, students still need
+          discipline and regular practice to make progress.
+        </p>
+      </div>
+
+      <div class="question">
+        <h3>What does the passage say students still need?</h3>
+
+        <div class="answers">
+          <label><input type="radio" name="reading"> Expensive computers</label>
+          <label><input type="radio" name="reading"> Discipline and regular practice</label>
+          <label><input type="radio" name="reading"> More holidays</label>
+        </div>
+      </div>
+
+      <button class="start-btn" onclick="checkReading()">Check Answer</button>
+
+      <div id="readingResult" class="result"></div>
+    `;
+
+  }
+
+  if (skill === "writing") {
+
+    workspace.innerHTML = `
+      <h2>✍️ Writing Practice</h2>
+      <p>Write at least 150 words about the topic below.</p>
+
+      <div class="question">
+        <h3>
+          Some people believe that students should study online.
+          Others prefer traditional classrooms.
+          Discuss both views and give your opinion.
+        </h3>
+      </div>
+
+      <textarea
+        id="writingText"
+        placeholder="Start writing your answer here..."
+        oninput="countWords()"></textarea>
+
+      <div class="word-count">
+        Words: <strong id="wordCount">0</strong>
+      </div>
+
+      <br>
+
+      <button class="start-btn" onclick="saveWriting()">Save Writing</button>
+
+      <div id="writingResult" class="result"></div>
+    `;
+
+  }
+
+  if (skill === "speaking") {
+
+    workspace.innerHTML = `
+      <h2>🎤 Speaking Practice</h2>
+      <p>Practice your answer. You can record yourself using your browser.</p>
+
+      <div class="question">
+        <h3>Describe a skill you would like to learn.</h3>
+        <p style="color:#9da7c2;margin-top:10px;">
+          Speak for 1–2 minutes. Explain why you want to learn it,
+          how you would learn it and how it could help you.
+        </p>
+      </div>
+
+      <button class="start-btn" onclick="startRecording()">
+        🎤 Start Recording
+      </button>
+
+      <div class="timer" id="timer">00:00</div>
+
+      <div id="recordStatus" class="result"></div>
+    `;
+
+  }
+
+  workspace.scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function checkListening() {
+
+  const selected = document.querySelector(
+    'input[name="listen"]:checked'
+  );
+
+  const result = document.getElementById("listenResult");
+
+  result.style.display = "block";
+
+  if (!selected) {
+    result.innerText = "Please choose an answer.";
+    return;
+  }
+
+  if (selected.value === "9:00") {
+    result.innerText = "✅ Correct! The library opens at 9:00.";
+    addProgress(5);
+  } else {
+    result.innerText = "❌ Not quite. Try again.";
+  }
+}
+
+function checkReading() {
+
+  const selected = document.querySelector(
+    'input[name="reading"]:checked'
+  );
+
+  const result = document.getElementById("readingResult");
+
+  result.style.display = "block";
+
+  if (!selected) {
+    result.innerText = "Please choose an answer.";
+    return;
+  }
+
+  if (
+    selected.parentElement.innerText.includes(
+      "Discipline and regular practice"
+    )
+  ) {
+    result.innerText = "✅ Correct!";
+    addProgress(5);
+  } else {
+    result.innerText = "❌ Try again.";
+  }
+}
+
+function countWords() {
+
+  const text = document.getElementById("writingText").value.trim();
+
+  const words = text
+    ? text.split(/\s+/).length
+    : 0;
+
+  document.getElementById("wordCount").innerText = words;
+}
+
+function saveWriting() {
+
+  const text = document.getElementById("writingText").value;
+
+  localStorage.setItem("ieltsWriting", text);
+
+  const result = document.getElementById("writingResult");
+
+  result.style.display = "block";
+  result.innerText = "✅ Your writing has been saved on this device.";
+
+  addProgress(5);
+}
+
+let recording = false;
+let seconds = 0;
+let timerInterval;
+
+function startRecording() {
+
+  if (recording) return;
+
+  recording = true;
+  seconds = 0;
+
+  const status = document.getElementById("recordStatus");
+
+  status.style.display = "block";
+  status.innerText = "🎙️ Recording... Speak now.";
+
+  timerInterval = setInterval(() => {
+
+    seconds++;
+
+    let min = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+
+    let sec = (seconds % 60)
+      .toString()
+      .padStart(2, "0");
+
+    document.getElementById("timer").innerText =
+      min + ":" + sec;
+
+    if (seconds >= 120) {
+      stopRecording();
+    }
+
+  }, 1000);
+
+  setTimeout(stopRecording, 30000);
+}
+
+function stopRecording() {
+
+  if (!recording) return;
+
+  recording = false;
+
+  clearInterval(timerInterval);
+
+  const status = document.getElementById("recordStatus");
+
+  if (status) {
+    status.innerText =
+      "✅ Speaking practice completed. Great job!";
+  }
+
+  addProgress(5);
+}
+
+updateProgress();
+
+</script>
+
+</body>
+</html>
